@@ -245,6 +245,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\HelloWorld.js" />
     <Content Include="Scripts\Index.js" />
+    <Content Include="Domain\Model\Auction.cd" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />

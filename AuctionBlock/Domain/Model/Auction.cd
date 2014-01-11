@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AuctionBlock.Domain.Model.Auction">
+    <Position X="5.5" Y="4" Width="2" />
+    <NestedTypes>
+      <Class Name="AuctionBlock.Domain.Model.Auction.Configuration" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Domain\Model\Auction.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAgBEAQAACcAAIBAAAAAAAAAAAAAAAAAAAAAAIGA=</HashCode>
+      <FileName>Domain\Model\Auction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuctionBlock.Domain.Model.Bid" Collapsed="true">
+    <Position X="12.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAgAAAACACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Model\Bid.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuctionBlock.Domain.Model.BidComparer" Collapsed="true">
+    <Position X="14.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Domain\Model\BidComparer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AuctionBlock.Domain.Model.Bidder" Collapsed="true">
+    <Position X="7.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Model\Bidder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuctionBlock.Domain.Model.Entity" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Model\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuctionBlock.Domain.Model.Entity&lt;TId&gt;" Collapsed="true">
+    <Position X="8.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAACAAAAAAAAAAQAgAAAAAAAAAAAAIAAAAAAAAAIAAA=</HashCode>
+      <FileName>Domain\Model\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AuctionBlock.Domain.Model.Item" Collapsed="true">
+    <Position X="10" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Model\Item.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="AuctionBlock.Domain.Model.AuctionStatus" Collapsed="true">
+    <Position X="14.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Model\AuctionStatus.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

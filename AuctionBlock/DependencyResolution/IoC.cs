@@ -16,22 +16,12 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-using System.Reflection;
 using AuctionBlock.Registrys;
-using FluentNHibernate.Cfg;
-using FluentNHibernate.Cfg.Db;
-using NHibernate;
-using NHibernate.Cfg;
-using NHibernate.Context;
-using NHibernate.Tool.hbm2ddl;
 using StructureMap;
-using Configuration = NHibernate.Cfg.Configuration;
 
 namespace AuctionBlock.DependencyResolution {
+    
     public static class IoC {
-
-        private const string ConnectionString = "Server=.;Database=AuctionBlock;Trusted_Connection=True;";
-
         public static IContainer Initialize() {
             ObjectFactory.Initialize(
                 x =>
@@ -40,24 +30,8 @@ namespace AuctionBlock.DependencyResolution {
                     x.AddRegistry<AutomapperRegistry>();
                     x.AddRegistry<InfrastructureRegistry>();
                     x.AddRegistry<DataAccessRegistry>();
-                    x.For<ISessionFactory>().Singleton().Use(GetSessionFactory);
-                    x.For<ISession>().HttpContextScoped()   
-                        .Use(c => c.GetInstance<ISessionFactory>().OpenSession());
                 });
             return ObjectFactory.Container;
-        }
-
-        public static ISessionFactory GetSessionFactory()
-        {
-            Configuration config = Fluently.Configure().
-                Database(MsSqlConfiguration.MsSql2008.ConnectionString(c => c.Is(ConnectionString))).
-                Mappings(m => m.FluentMappings.AddFromAssembly(Assembly.GetExecutingAssembly())).
-                CurrentSessionContext<ThreadStaticSessionContext>().
-                BuildConfiguration();
-
-            new SchemaUpdate(config).Execute(false, true);
-
-            return config.BuildSessionFactory();
         }
     }
 }
