@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="~/Content/bootstrap.min.css"
+        rel="stylesheet" media="screen">
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container">
+
+        @RenderBody()
+
+        @Scripts.Render("~/bundles/jquery")
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        @RenderSection("scripts", required: false)
+    </div>
+</body>
+</html>

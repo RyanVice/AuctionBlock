@@ -1,0 +1,96 @@
+﻿<!-- Auctions View -->
+<div data-bind="template: { name: mainViewTemplate, data: mainViewModel }">
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/knockout-2.3.0.js"></script>
+    <script src="~/Scripts/knockout.mapping-latest.js"></script>
+    <script src="~/Scripts/index.js"></script>
+    <script id="editAuctionView" type="text/html">
+        <h1>Edit Auction</h1>
+        <button class="btn" data-bind="click: $root.onCancelEditAuction">
+            Cancel
+        </button>
+        <button class="btn btn-primary"></button>
+    </script>
+    <script id="newAuctionView" type="text/html">
+        <h1>New Auction</h1>
+        <button class="btn" data-bind="click: $root.onCancelNewAuction">
+            Cancel
+        </button>
+        <button class="btn btn-primary">
+            Add
+        </button>
+    </script>
+    <script id="auctionDetailsView" type="text/html">
+        <h1>Auction Details</h1>
+        <b>Title</b><br />
+        <span data-bind="text: $data.title"></span>
+        <br />
+        <b>Id</b><br />
+        <span data-bind="text: $data.id"></span>
+        <br />
+        <br />
+        <b>Items</b>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: $data.items">
+                <tr>
+                    <td data-bind="click: $root.onItemSelected">
+                        <span data-bind="text: description"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <button class="btn btn-primary"
+            data-bind="click: $root.onCloseAuctionDetails">
+            Close</button>
+    </script>
+    <script id="auctionsView" type="text/html">
+        <h1>Auctions</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Item Count</th>
+                    <th>Max Bid</th>
+                    <th>Bids Count</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: $data">
+                <tr>
+                    <td class="span6" data-bind="click: $root.onItemSelected">
+                        <span data-bind="text: title"></span>
+                    </td>
+                    <td data-bind="click: $root.onItemSelected">
+                        <span data-bind="text: items.length"></span>
+                    </td>
+                    <td data-bind="click: $root.onItemSelected">
+                        <span data-bind="text: maxBid"></span>
+                    </td>
+                    <td data-bind="click: $root.onItemSelected">
+                        <span data-bind="text: bids.length"></span>
+                    </td>
+                    <td>
+                        <div class="dropdown btn-group">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">Action
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" data-bind="click: $root.onEditClicked">Edit</a></li>
+                                <li><a href="#" data-bind="click: $root.onDeleteClicked">Delete</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary" data-bind="click: $root.onAddClicked">Add</button>
+    </script>
+}
