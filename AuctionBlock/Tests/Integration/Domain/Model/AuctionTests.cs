@@ -81,7 +81,7 @@ namespace AuctionBlock.Tests.Integration.Domain.Model
                 var actual = Session.Get<Auction>(id);
 
                 // Assert
-                actual.Bids.Count.Should().Be(2);
+                actual.Bids.Count().Should().Be(2);
                 actual.Bids.ToList().ForEach(x =>
                     actual.Bids
                         .Any(

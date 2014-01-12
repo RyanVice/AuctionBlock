@@ -11,7 +11,6 @@ namespace AuctionBlock.Domain.Model
 
         public Bid()
         {
-            PlacedOn = DateTime.Now;
         }
     }
 }

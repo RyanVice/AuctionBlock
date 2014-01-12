@@ -9,7 +9,7 @@ namespace AuctionBlock.Domain.Model
     {
         public virtual string Title { get; protected set; }
         private IList<Bid> _bids;
-        public virtual IList<Bid> Bids { get { return _bids; } }
+        public virtual IEnumerable<Bid> Bids { get { return _bids; } }
         public virtual Bid CurrentBid
         {
             get 
@@ -43,11 +43,6 @@ namespace AuctionBlock.Domain.Model
 
             Initialize();
 
-            Configure(title, items, openingPrice);
-        }
-
-        private void Configure(string title, IEnumerable<Item> items, decimal openingPrice)
-        {
             Title = title;
             foreach (var item in items)
             {
@@ -56,14 +51,15 @@ namespace AuctionBlock.Domain.Model
             }
 
             OpeningPrice = openingPrice;
+
+            StartedAt = DateTime.Now;
+            Status = AuctionStatus.Started;
         }
 
         private void Initialize()
         {
             _bids = new List<Bid>();
             Items = new List<Item>();
-            Status = AuctionStatus.Started;
-            StartedAt = DateTime.UtcNow;
         }
 
         public virtual Bid PlaceBid(Guid bidderId, decimal bidAmount)
@@ -74,7 +70,7 @@ namespace AuctionBlock.Domain.Model
                         "New bids must be higher than current maximum bid of {0}", 
                         CurrentBid.Amount));
 
-            var bid = new Bid {Amount = bidAmount, Auction = this, Bidder = new Bidder(bidderId)};
+            var bid = new Bid {Amount = bidAmount, Auction = this, Bidder = new Bidder(bidderId), PlacedOn = DateTime.Now};
             _bids.Add(bid);
 
             return bid;

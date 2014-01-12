@@ -191,7 +191,6 @@
     <Compile Include="Domain\Model\Auction.cs" />
     <Compile Include="Domain\Model\AuctionStatus.cs" />
     <Compile Include="Domain\Model\Bid.cs" />
-    <Compile Include="Domain\Model\BidComparer.cs" />
     <Compile Include="Domain\Model\Bidder.cs" />
     <Compile Include="Domain\Model\Entity.cs" />
     <Compile Include="Domain\Model\Item.cs" />
