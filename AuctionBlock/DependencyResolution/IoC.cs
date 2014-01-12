@@ -16,8 +16,16 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
+using System.Configuration;
+using System.Reflection;
 using AuctionBlock.Registrys;
+using FluentNHibernate.Cfg;
+using FluentNHibernate.Cfg.Db;
+using NHibernate;
+using NHibernate.Context;
+using NHibernate.Tool.hbm2ddl;
 using StructureMap;
+using Configuration = NHibernate.Cfg.Configuration;
 
 namespace AuctionBlock.DependencyResolution {
     
@@ -30,8 +38,35 @@ namespace AuctionBlock.DependencyResolution {
                     x.AddRegistry<AutomapperRegistry>();
                     x.AddRegistry<InfrastructureRegistry>();
                     x.AddRegistry<DataAccessRegistry>();
+                    x.For<ISessionFactory>().Singleton().Use(GetSessionFactory);
+                    x.For<ISession>().HttpContextScoped()
+                        .Use(c => c.GetInstance<ISessionFactory>().OpenSession());
                 });
             return ObjectFactory.Container;
+        }
+
+        public static ISessionFactory GetSessionFactory()
+        {
+            Configuration config
+                = Fluently.Configure()
+                    .Database(MsSqlConfiguration.MsSql2008
+                        .ConnectionString(c =>
+                            c.Is(GetConnectionString())))
+                    .Mappings(
+                        m => m.FluentMappings
+                            .AddFromAssembly(Assembly.GetExecutingAssembly()))
+                    .CurrentSessionContext<ThreadStaticSessionContext>()
+                    .BuildConfiguration();
+
+            new SchemaUpdate(config).Execute(false, true);
+
+            return config.BuildSessionFactory();
+        }
+
+        private static string GetConnectionString()
+        {
+            return ConfigurationManager
+                .ConnectionStrings["ApiConnectionString"].ConnectionString;
         }
     }
 }

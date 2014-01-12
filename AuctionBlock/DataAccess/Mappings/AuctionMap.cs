@@ -8,9 +8,7 @@ namespace AuctionBlock.DataAccess.Mappings
         public AuctionMap()
         {
             Table("Auctions");
-            Map(x => x.Increment).CustomType<decimal>().Nullable();
             Map(x => x.OpeningPrice).CustomType<decimal>().Nullable();
-            Map(x => x.ReservePrice).CustomType<decimal>().Nullable();
             Map(x => x.Title).Not.Nullable();
             Map(x => x.Status).CustomType<int>().Nullable();
             Map(x => x.StartedAt).Not.Nullable();

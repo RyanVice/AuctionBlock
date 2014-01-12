@@ -13,9 +13,7 @@ namespace AuctionBlock.Tests.Integration.Domain.Model
                 .CheckProperty(x => x.Description, "description")
                 .CheckReference(
                     x => x.Auction,
-                    new Auction(
-                        new Auction.Configuration(
-                            "test auction", new[] { new Item("test item"), })))
+                    new Auction("test auction", new[] { new Item("test item"), }))
                 .VerifyTheMappings();
         }
     }

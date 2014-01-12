@@ -16,9 +16,7 @@ namespace AuctionBlock.Tests.Integration.Domain.Model
                 .CheckReference(x => x.Bidder, new Bidder("test biddeer"))
                 .CheckReference(
                     x => x.Auction, 
-                    new Auction(
-                        new Auction.Configuration(
-                            "test auction", new[] {new Item("test item"), })))
+                    new Auction("test auction", new[] {new Item("test item"), }))
                 .VerifyTheMappings();
         }
     }

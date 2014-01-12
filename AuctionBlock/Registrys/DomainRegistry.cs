@@ -32,33 +32,6 @@ namespace AuctionBlock.Registrys
                 .Use<GetAuctionQuery>();
             For<IStartAuctionCommand>()
                 .Use<StartAuctionCommand>();
-            For<ISessionFactory>().Singleton().Use(GetSessionFactory);
-            For<ISession>().HttpContextScoped()
-                .Use(c => c.GetInstance<ISessionFactory>().OpenSession());
-        }
-
-        public static ISessionFactory GetSessionFactory()
-        {
-            Configuration config 
-                = Fluently.Configure()
-                    .Database(MsSqlConfiguration.MsSql2008
-                        .ConnectionString(c => 
-                            c.Is(GetConnectionString())))
-                    .Mappings(
-                        m => m.FluentMappings
-                            .AddFromAssembly(Assembly.GetExecutingAssembly()))
-                    .CurrentSessionContext<ThreadStaticSessionContext>()
-                    .BuildConfiguration();
-
-            new SchemaUpdate(config).Execute(false, true);
-
-            return config.BuildSessionFactory();
-        }
-
-        private static string GetConnectionString()
-        {
-            return ConfigurationManager
-                .ConnectionStrings["ApiConnectionString"].ConnectionString;
         }
     }
 }

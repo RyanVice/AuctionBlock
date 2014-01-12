@@ -22,7 +22,7 @@ namespace AuctionBlock.Tests.Integration.Domain.Model
 
             using (var transaction = Session.BeginTransaction())
             {
-                id = Session.Save(new Auction(new Auction.Configuration("test", items)));
+                id = Session.Save(new Auction("test", items));
 
                 transaction.Commit();
             }
@@ -53,7 +53,7 @@ namespace AuctionBlock.Tests.Integration.Domain.Model
                     {
                         new Item("item 1"), new Item("item 2"), new Item("item 3")
                     };
-            var auction = new Auction(new Auction.Configuration("test", items));
+            var auction = new Auction("test", items);
             const decimal expectedBidAmount1 = 123.45m;
             var expectedBidder1 = new Bidder("bidder1");
             var expectedBidder2 = new Bidder("bidder2");
@@ -102,9 +102,7 @@ namespace AuctionBlock.Tests.Integration.Domain.Model
         {
             new PersistenceSpecification<Auction>(Session)
                 .CheckProperty(x => x.Title, "title")
-                .CheckProperty(x => x.Increment, 123.45m)
                 .CheckProperty(x => x.OpeningPrice, 123.45m)
-                .CheckProperty(x => x.ReservePrice, 123.45M)
                 .CheckProperty(x => x.StartedAt, new DateTimeOffset(DateTime.Now))
                 .CheckProperty(x => x.Status, AuctionStatus.Completed)
                 .VerifyTheMappings();

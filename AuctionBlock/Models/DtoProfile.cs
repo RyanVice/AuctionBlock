@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using AuctionBlock.Domain.Model;
+﻿using AuctionBlock.Domain.Model;
 using AuctionBlock.Models.Request;
 using AuctionBlock.Models.Response;
 using AutoMapper;
@@ -32,17 +30,6 @@ namespace AuctionBlock.Models
                     dst => dst.PlacedOn, 
                     opt => opt.ResolveUsing(
                         dst => dst.PlacedOn.DateTime));
-            Mapper.CreateMap<
-                AuctionConfigurationRequest,
-                Auction.Configuration>()
-                  .ConstructUsing(GetAuctionConfiguration);
-        }
-
-        private Auction.Configuration GetAuctionConfiguration(AuctionConfigurationRequest configurationRequest)
-        {
-            return new Auction.Configuration(
-                configurationRequest.Title,
-                Mapper.Map<IEnumerable<Item>>(configurationRequest.Items));
         }
     }
 }

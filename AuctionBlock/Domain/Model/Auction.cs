@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using AuctionBlock.Infrastructure.Extensions;
 
 namespace AuctionBlock.Domain.Model
@@ -21,8 +20,6 @@ namespace AuctionBlock.Domain.Model
             }
         }
         public virtual AuctionStatus Status { get; protected set; }
-        public virtual decimal ReservePrice { get; protected set; }
-        public virtual decimal Increment { get; protected set; }
         public virtual decimal OpeningPrice { get; protected set; }
         public virtual IList<Item> Items { get; protected set; }
         public virtual DateTimeOffset StartedAt { get; protected set; }
@@ -32,14 +29,33 @@ namespace AuctionBlock.Domain.Model
             Initialize();
         }
 
-        public Auction(Configuration configuration)
+        public Auction(string title, IEnumerable<Item> items)
+            : this(title, items, 0)
         {
+        }
 
-            configuration.ThrowIfNull("configuration");
+        public Auction(string title, IEnumerable<Item> items, decimal openingPrice)
+        {
+            title.ThrowIfNullEmptyOrWhiteSpace("title");
+            items.ThrowIfNullOrEmpty("items");
+            openingPrice.ThrowConfigurationExceptionIf(
+                d => d >= 0, "openingPrice must be greater than or equal to 0");
 
             Initialize();
 
-            configuration.Configure(this);
+            Configure(title, items, openingPrice);
+        }
+
+        private void Configure(string title, IEnumerable<Item> items, decimal openingPrice)
+        {
+            Title = title;
+            foreach (var item in items)
+            {
+                item.Auction = this;
+                Items.Add(item);
+            }
+
+            OpeningPrice = openingPrice;
         }
 
         private void Initialize()
@@ -67,59 +83,6 @@ namespace AuctionBlock.Domain.Model
         public virtual void EndAuction()
         {
             Status = AuctionStatus.Completed;
-        }
-
-        public class Configuration
-        {
-            private readonly string _title;
-            private readonly IEnumerable<Item> _items;
-            public decimal ReservePrice { get; set; }
-            public decimal Increment { get; set; }
-            public decimal OpeningPrice { get; set; }
-
-            public Configuration(string title, IEnumerable<Item> items)
-            {
-                title.ThrowIfNullEmptyOrWhiteSpace("title");
-                items.ThrowIfNullOrEmpty("items");
-                _title = title;
-                _items = items;
-            }
-
-            public void Configure(Auction auction)
-            {
-                SetRequiredConfigurations(auction);
-                TrySetOptionalConfigurations(auction);
-            }
-
-            private void SetRequiredConfigurations(Auction auction)
-            {
-                auction.Title = _title;
-                foreach (var item in _items)
-                {
-                    item.Auction = auction;
-                    auction.Items.Add(item);
-                }
-            }
-
-            private void TrySetOptionalConfigurations(Auction auction)
-            {
-                auction.ReservePrice = TryGetValidConfiguration(() => ReservePrice);
-                auction.Increment = TryGetValidConfiguration(() => Increment);
-                auction.OpeningPrice = TryGetValidConfiguration(() => OpeningPrice);
-            }
-
-            private decimal TryGetValidConfiguration(Expression<Func<decimal>> expression)
-            {
-                decimal result = expression.Compile().Invoke();
-
-                result.ThrowConfigurationExceptionIf(
-                    x => x >= 0,
-                    string.Format(
-                        "Value of {0} must be greater than 0.",
-                        expression.GetProperty()));
-
-                return result;
-            }
         }
     }
 }

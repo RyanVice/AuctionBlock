@@ -41,13 +41,18 @@ namespace AuctionBlock.Domain.Services
             return getAuctionQuery.Execute();
         }
 
-        public Auction StartAuction(Auction.Configuration configuration)
+        public Auction StartAuction(string title, IEnumerable<Item> items)
         {
-            configuration.ThrowIfNull("configuration");
+            return StartAuction(title, items, 0);
+        }
+
+        public Auction StartAuction(string title, IEnumerable<Item> items, decimal openingPrice)
+        {
+            // Construct auction before creating command so that Auction validations will fire
+            var auction = new Auction(title, items);
 
             var startAuctionCommand = _startAuctionCommandFactory.Create();
-
-            startAuctionCommand.Auction = new Auction(configuration);
+            startAuctionCommand.Auction = auction;
             startAuctionCommand.Execute();
 
             return startAuctionCommand.Auction;

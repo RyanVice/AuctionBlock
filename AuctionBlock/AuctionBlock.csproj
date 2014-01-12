@@ -227,7 +227,6 @@
     <Compile Include="Tests\Integration\Domain\Model\ItemTests.cs" />
     <Compile Include="Tests\Integration\Domain\Services\AuctionBlockServiceTests.cs" />
     <Compile Include="Tests\Integration\InMemoryDatabaseTest.cs" />
-    <Compile Include="Tests\Unit\AuctionConfigurationTests.cs" />
     <Compile Include="Tests\Unit\AuctionTests.cs" />
   </ItemGroup>
   <ItemGroup>

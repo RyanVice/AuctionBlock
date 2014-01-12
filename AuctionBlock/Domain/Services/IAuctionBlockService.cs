@@ -8,7 +8,8 @@ namespace AuctionBlock.Domain.Services
     {
         IEnumerable<Auction> GetActiveAuctions();
         Auction GetAuction(Guid id);
-        Auction StartAuction(Auction.Configuration configuration = null);
+        Auction StartAuction(string title, IEnumerable<Item> items);
+        Auction StartAuction(string title, IEnumerable<Item> items, decimal openingPrice);
         void EndAuction(Guid id);
         Bid PlaceBid(Guid auctionId, Guid bidderId, decimal amount);
     }

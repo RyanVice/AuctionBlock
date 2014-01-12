@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using AuctionBlock.Domain.Model;
 using FluentAssertions;
@@ -12,12 +13,44 @@ namespace AuctionBlock.Tests.Unit
     {
         [ExpectedException(typeof(ArgumentNullException))]
         [Test]
-        public void Creating_Auction_without_configuration_should_throw_exception()
+        public void Creating_Auction_with_null_items_throws_exception()
         {
             // Assert
-            // ReSharper disable ObjectCreationAsStatement
-            new Auction(null);
-            // ReSharper restore ObjectCreationAsStatement
+            new Auction("Test title", null);
+        }
+
+        [ExpectedException(typeof(ArgumentNullException))]
+        [Test]
+        public void Creating_Auction_with_empty_title_throws_exception()
+        {
+            // Assert
+            new Auction(
+                string.Empty, 
+                new List<Item> { new Item("Test Description") });
+        }
+
+        [Test]
+        public void Creating_Auction_without_openingPrice_defaults_OpeningPrice_to_0()
+        {
+            // Act
+            var auction = new Auction(
+                "Test Title",
+                new List<Item> { new Item("Test Description") });
+
+            // Assert
+            auction.OpeningPrice.Should().Be(0);
+        }
+
+        [ExpectedException(typeof(ConfigurationErrorsException))]
+        [Test]
+        public void Creating_Auction_with_invalid_openingPrice_thorws_exception()
+        {
+            // Assert
+            const int invalidPrice = -1;
+            new Auction(
+                "Test Title",
+                new List<Item> { new Item("Test Description") },
+                invalidPrice);
         }
 
         [Test]
@@ -25,9 +58,8 @@ namespace AuctionBlock.Tests.Unit
         {
             // Arrange
             var target = new Auction(
-                new Auction.Configuration(
                     "Test Auction",
-                    new List<Item> { new Item("Test Item Description") }));
+                    new List<Item> { new Item("Test Item Description") });
             var expectedBidder = new Bidder("Test Bidder");
             const decimal expectedAmount = 500.00m;
             const int expectedNumberOfBids = 1;
@@ -49,9 +81,9 @@ namespace AuctionBlock.Tests.Unit
         public void Adding_a_bid_of_a_lower_value_throws_an_exception()
         {
             // Arrange
-            var target = new Auction(new Auction.Configuration(
+            var target = new Auction(
                     "Test Auction",
-                    new List<Item> { new Item("Test Item Description") }));
+                    new List<Item> { new Item("Test Item Description") });
             var firstBidder = new Bidder("First Bidder");
             const decimal firstAmount = 500.00m;
             var secondBidder = new Bidder("Second Bidder");
@@ -66,9 +98,9 @@ namespace AuctionBlock.Tests.Unit
         public void Adding_2_bids_should_have_second_bid_as_current_bid()
         {
             // Arrange
-            var target = new Auction(new Auction.Configuration(
+            var target = new Auction(
                     "Test Auction",
-                    new List<Item> { new Item("Test Item Description") }));
+                    new List<Item> { new Item("Test Item Description") });
             var firstBidder = new Bidder("First Bidder");
             const decimal firstAmount = 500.00m;
             var expectedBidder = new Bidder("Second Bidder");
@@ -87,9 +119,9 @@ namespace AuctionBlock.Tests.Unit
         public void Ending_an_auction_will_set_status_to_completed()
         {
             // Arrange
-            var target = new Auction(new Auction.Configuration(
+            var target = new Auction(
                     "Test Auction",
-                    new List<Item> { new Item("Test Item Description") }));
+                    new List<Item> { new Item("Test Item Description") });
             var expectedBidder = new Bidder("Test Bidder");
             const decimal expectedAmount = 500.00m;
             target.PlaceBid(expectedBidder.Id, expectedAmount);

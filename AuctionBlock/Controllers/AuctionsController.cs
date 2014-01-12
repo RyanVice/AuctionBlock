@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Web.Http;
 using AuctionBlock.Domain.Model;
 using AuctionBlock.Domain.Services;
-using AuctionBlock.Infrastructure.Web;
 using AuctionBlock.Models.Request;
 using AuctionBlock.Models.Response;
 using AutoMapper;
@@ -45,7 +44,9 @@ namespace AuctionBlock.Controllers
             var auction 
                 = _mappingEngine.Map<AuctionResponse>(
                     _auctionBlockService.StartAuction(
-                        _mappingEngine.Map<Auction.Configuration>(configurationRequest)));
+                        configurationRequest.Title, 
+                        _mappingEngine.Map<IEnumerable<Item>>(configurationRequest.Items),
+                        configurationRequest.OpeningPrice));
 
             return request.CreateResponse(
                 HttpStatusCode.Created, 

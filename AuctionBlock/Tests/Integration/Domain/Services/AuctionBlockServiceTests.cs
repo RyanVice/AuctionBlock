@@ -36,8 +36,7 @@ namespace AuctionBlock.Tests.Integration.Domain.Services
             Auction actualAuction = null;
             TransactionScope(() => 
                 actualAuction = 
-                    target.StartAuction(
-                        new Auction.Configuration(expectedTitle, expectedItems)));
+                    target.StartAuction(expectedTitle, expectedItems));
             
 
             // Assert
@@ -58,8 +57,7 @@ namespace AuctionBlock.Tests.Integration.Domain.Services
 
             // Act
             TransactionScope(() =>
-                target.StartAuction(
-                    new Auction.Configuration(expectedTitle, expectedItems)));
+                target.StartAuction(expectedTitle, expectedItems));
 
             // Assert
             target.GetAuction(Guid.NewGuid());
@@ -77,8 +75,7 @@ namespace AuctionBlock.Tests.Integration.Domain.Services
             Auction expectedAuction = null;
             TransactionScope(() =>
                 expectedAuction = 
-                    target.StartAuction(
-                        new Auction.Configuration(expectedTitle, expectedItems)));
+                    target.StartAuction(expectedTitle, expectedItems));
 
             // Act
             var actual = target.GetAuction(expectedAuction.Id);
@@ -96,7 +93,6 @@ namespace AuctionBlock.Tests.Integration.Domain.Services
             const string expectedDescription1 = "Expected description1";
             var expectedItems = new List<Item> { new Item(expectedDescription1) };
             const string expectedTitle2 = "Expected title2";
-            const string expectedDescription2 = "Expected description2";
             var expectedItems2 = new List<Item> { new Item(expectedDescription1) };
             var target = ObjectFactory.GetInstance<IAuctionBlockService>();
 
@@ -104,13 +100,13 @@ namespace AuctionBlock.Tests.Integration.Domain.Services
             TransactionScope(() =>
                 {
                     expectedAuctions.Add(
-                        target.StartAuction(
-                            new Auction.Configuration(expectedTitle1, expectedItems)));
+                        target.StartAuction(expectedTitle1, expectedItems));
                     expectedAuctions.Add(
-                        target.StartAuction(
-                            new Auction.Configuration(expectedTitle2, expectedItems2)));
-                    var inactiveAuction = target.StartAuction(
-                        new Auction.Configuration("Inactive title", new List<Item> { new Item("Description")}));
+                        target.StartAuction(expectedTitle2, expectedItems2));
+                    var inactiveAuction 
+                        = target.StartAuction(
+                            "Inactive title", 
+                            new List<Item> { new Item("Description")});
                     target.EndAuction(inactiveAuction.Id);
                 });
 
