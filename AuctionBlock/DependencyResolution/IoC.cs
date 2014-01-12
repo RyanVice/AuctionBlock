@@ -34,7 +34,6 @@ namespace AuctionBlock.DependencyResolution {
             ObjectFactory.Initialize(
                 x =>
                 {
-                    x.AddRegistry<DomainRegistry>();
                     x.AddRegistry<AutomapperRegistry>();
                     x.AddRegistry<InfrastructureRegistry>();
                     x.AddRegistry<DataAccessRegistry>();

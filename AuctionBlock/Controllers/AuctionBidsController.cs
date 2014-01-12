@@ -3,7 +3,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using AuctionBlock.Domain.Services;
+using AuctionBlock.DataAccess.Queries;
+using AuctionBlock.Domain.Model;
+using AuctionBlock.Infrastructure.Factories;
 using AuctionBlock.Models.Request;
 using AuctionBlock.Models.Response;
 using AutoMapper;
@@ -12,14 +14,14 @@ namespace AuctionBlock.Controllers
 {
     public class AuctionBidsController : ApiController
     {
-        private readonly IAuctionBlockService _auctionBlockService;
+        private readonly IFactory<IGetAuctionQuery> _getAuctionQueryFactory;
         private readonly IMappingEngine _mappingEngine;
 
         public AuctionBidsController(
-            IAuctionBlockService auctionBlockService,
+            IFactory<IGetAuctionQuery> getAuctionQueryFactory,
             IMappingEngine mappingEngine)
         {
-            _auctionBlockService = auctionBlockService;
+            _getAuctionQueryFactory = getAuctionQueryFactory;
             _mappingEngine = mappingEngine;
         }
 
@@ -27,8 +29,7 @@ namespace AuctionBlock.Controllers
         {
             return request.CreateResponse(
                 HttpStatusCode.OK,
-                _auctionBlockService
-                    .GetAuction(auctionId)
+                GetAuction(auctionId)
                     .Bids
                     .Select(bid => _mappingEngine.Map<BidResponse>(bid)));
         }
@@ -39,9 +40,7 @@ namespace AuctionBlock.Controllers
             BidPostRequest bidPostRequestRequest)
         {
             var bid = _mappingEngine.Map<BidResponse>(
-                _auctionBlockService
-                    .PlaceBid(
-                        auctionId,
+                GetAuction(auctionId).PlaceBid(
                         bidPostRequestRequest.BidderId,
                         bidPostRequestRequest.Amount));
 
@@ -51,6 +50,14 @@ namespace AuctionBlock.Controllers
                 "AuctionBids",
                 new { auctionId, id = bid.Id });
 
+        }
+
+        private Auction GetAuction(Guid auctionId)
+        {
+            var getAuctionQuery = _getAuctionQueryFactory.Create();
+            getAuctionQuery.Id = auctionId;
+
+            return getAuctionQuery.Execute();
         }
     }
 }

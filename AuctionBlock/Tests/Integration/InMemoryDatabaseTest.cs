@@ -1,6 +1,7 @@
 using System;
 using System.Data;
 using AuctionBlock.DataAccess.Mappings;
+using AuctionBlock.Registrys;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Conventions;
@@ -26,16 +27,22 @@ namespace AuctionBlock.Tests.Integration
         public void SetupBase()
         {
             Session = _sessionFactory.OpenSession();
+            
             new SchemaExport(_configuration)
                 .Execute(true, true, false, Session.Connection, Console.Out);
-            ObjectFactory.Initialize(x => x.For<ISession>().Add(Session));
-            SetUp();
+
+            ObjectFactory.Initialize(x =>
+                {
+                    x.For<ISession>().Add(Session);
+                    x.AddRegistry<InfrastructureRegistry>();
+                    x.AddRegistry<DataAccessRegistry>();
+                });
         }
 
         protected virtual void SetUp()
         {}
 
-        public InMemoryDatabaseTest()
+        protected InMemoryDatabaseTest()
         {
             SetProcessorTypeForSqliteHack();
 

@@ -195,8 +195,6 @@
     <Compile Include="Domain\Model\Bidder.cs" />
     <Compile Include="Domain\Model\Entity.cs" />
     <Compile Include="Domain\Model\Item.cs" />
-    <Compile Include="Domain\Services\AuctionBlockService.cs" />
-    <Compile Include="Domain\Services\IAuctionBlockService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -221,11 +219,13 @@
     <Compile Include="Registrys\AutomapperRegistry.cs" />
     <Compile Include="Registrys\DomainRegistry.cs" />
     <Compile Include="Registrys\InfrastructureRegistry.cs" />
+    <Compile Include="Tests\Integration\DataAccess\Commands\StartAuctionCommandTests.cs" />
+    <Compile Include="Tests\Integration\DataAccess\Queries\GetActiveAuctionsQuery.cs" />
+    <Compile Include="Tests\Integration\DataAccess\Queries\GetAuctionQueryTests.cs" />
     <Compile Include="Tests\Integration\Domain\Model\AuctionTests.cs" />
     <Compile Include="Tests\Integration\Domain\Model\BidderTests.cs" />
     <Compile Include="Tests\Integration\Domain\Model\BidTests.cs" />
     <Compile Include="Tests\Integration\Domain\Model\ItemTests.cs" />
-    <Compile Include="Tests\Integration\Domain\Services\AuctionBlockServiceTests.cs" />
     <Compile Include="Tests\Integration\InMemoryDatabaseTest.cs" />
     <Compile Include="Tests\Unit\AuctionTests.cs" />
   </ItemGroup>

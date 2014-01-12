@@ -16,7 +16,7 @@ namespace AuctionBlock.DataAccess.Commands
 
         public override void Execute()
         {
-            this.Auction.ThrowIfNull("Auction");
+            Auction.ThrowIfNull("Auction");
 
             Session.Save(Auction);
         }
