@@ -36,7 +36,6 @@ namespace AuctionBlock.DependencyResolution {
                 {
                     x.AddRegistry<AutomapperRegistry>();
                     x.AddRegistry<InfrastructureRegistry>();
-                    x.AddRegistry<DataAccessRegistry>();
                     x.For<ISessionFactory>().Singleton().Use(GetSessionFactory);
                     x.For<ISession>().HttpContextScoped()
                         .Use(c => c.GetInstance<ISessionFactory>().OpenSession());

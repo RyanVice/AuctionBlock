@@ -170,21 +170,11 @@
     <Compile Include="Controllers\AuctionBidsController.cs" />
     <Compile Include="Controllers\AuctionsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="DataAccess\Commands\ICommand.cs" />
-    <Compile Include="DataAccess\Commands\IStartAuctionCommand.cs" />
-    <Compile Include="DataAccess\Commands\NHibernateCommand.cs" />
-    <Compile Include="DataAccess\Commands\StartAuctionCommand.cs" />
     <Compile Include="DataAccess\Mappings\AuctionMap.cs" />
     <Compile Include="DataAccess\Mappings\BidderMap.cs" />
     <Compile Include="DataAccess\Mappings\BidMap.cs" />
     <Compile Include="DataAccess\Mappings\DomainClassMap.cs" />
     <Compile Include="DataAccess\Mappings\ItemMap.cs" />
-    <Compile Include="DataAccess\Queries\GetActiveAuctionsQuery.cs" />
-    <Compile Include="DataAccess\Queries\GetAuctionQuery.cs" />
-    <Compile Include="DataAccess\Queries\IGetActiveAuctionsQuery.cs" />
-    <Compile Include="DataAccess\Queries\IGetAuctionQuery.cs" />
-    <Compile Include="DataAccess\Queries\IQuery.cs" />
-    <Compile Include="DataAccess\Queries\NHibernateQuery.cs" />
     <Compile Include="DependencyResolution\IoC.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyResolver.cs" />
     <Compile Include="DependencyResolution\StructureMapDependencyScope.cs" />
@@ -194,10 +184,13 @@
     <Compile Include="Domain\Model\Bidder.cs" />
     <Compile Include="Domain\Model\Entity.cs" />
     <Compile Include="Domain\Model\Item.cs" />
+    <Compile Include="Domain\Services\AuctionService.cs" />
+    <Compile Include="Domain\Services\IAuctionService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Infrastructure\Extensions\GuidExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\ObjectExtensions.cs" />
     <Compile Include="Infrastructure\Extensions\StringExtensions.cs" />
@@ -218,13 +211,11 @@
     <Compile Include="Registrys\AutomapperRegistry.cs" />
     <Compile Include="Registrys\DomainRegistry.cs" />
     <Compile Include="Registrys\InfrastructureRegistry.cs" />
-    <Compile Include="Tests\Integration\DataAccess\Commands\StartAuctionCommandTests.cs" />
-    <Compile Include="Tests\Integration\DataAccess\Queries\GetActiveAuctionsQuery.cs" />
-    <Compile Include="Tests\Integration\DataAccess\Queries\GetAuctionQueryTests.cs" />
     <Compile Include="Tests\Integration\Domain\Model\AuctionTests.cs" />
     <Compile Include="Tests\Integration\Domain\Model\BidderTests.cs" />
     <Compile Include="Tests\Integration\Domain\Model\BidTests.cs" />
     <Compile Include="Tests\Integration\Domain\Model\ItemTests.cs" />
+    <Compile Include="Tests\Integration\Domain\Services\AuctionServiceTests.cs" />
     <Compile Include="Tests\Integration\InMemoryDatabaseTest.cs" />
     <Compile Include="Tests\Unit\AuctionTests.cs" />
   </ItemGroup>

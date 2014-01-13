@@ -12,39 +12,6 @@ namespace AuctionBlock.Tests.Integration.Domain.Model
     public class AuctionTests : InMemoryDatabaseTest
     {
         [Test]
-        public void Can_add_items()
-        {
-            object id;
-            var items = new List<Item>
-                    {
-                        new Item("item 1"), new Item("item 2"), new Item("item 3")
-                    };
-
-            using (var transaction = Session.BeginTransaction())
-            {
-                id = Session.Save(new Auction("test", items));
-
-                transaction.Commit();
-            }
-
-            Session.Clear();
-
-            using (var transaction = Session.BeginTransaction())
-            {
-                var actual = Session.Get<Auction>(id);
-
-                actual.Items.Count.ShouldBeEquivalentTo(items.Count);
-                items.ForEach(x =>
-                    actual.Items
-                        .Any(
-                            y => y.Description == x.Description
-                            && x.Id == y.Id)
-                        .Should().BeTrue());
-                transaction.Commit();
-            }
-        }
-
-        [Test]
         public void Can_add_bids()
         {
             // Arrange
@@ -105,6 +72,19 @@ namespace AuctionBlock.Tests.Integration.Domain.Model
                 .CheckProperty(x => x.OpeningPrice, 123.45m)
                 .CheckProperty(x => x.StartedAt, new DateTimeOffset(DateTime.Now))
                 .CheckProperty(x => x.Status, AuctionStatus.Completed)
+                .CheckList(
+                    x => x.Items,
+                    new List<Item>
+                    {
+                        new Item("item 1"), 
+                        new Item("item 2"), 
+                        new Item("item 3")
+                    },
+                    (auction, item) =>
+                    {
+                        item.Auction = auction;
+                        auction.Items.Add(item);
+                    })
                 .VerifyTheMappings();
         }
     }

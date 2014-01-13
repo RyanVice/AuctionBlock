@@ -1,19 +1,14 @@
-﻿using AuctionBlock.DataAccess.Commands;
-using AuctionBlock.DataAccess.Queries;
+﻿using AuctionBlock.Domain.Services;
 using StructureMap.Configuration.DSL;
 
 namespace AuctionBlock.Registrys
 {
-    public class DataAccessRegistry : Registry
+    public class DomainRegistry : Registry
     {
-        public DataAccessRegistry()
+        public DomainRegistry()
         {
-            For<IGetActiveAuctionsQuery>()
-                .Use<GetActiveAuctionsQuery>();
-            For<IGetAuctionQuery>()
-                .Use<GetAuctionQuery>();
-            For<IStartAuctionCommand>()
-                .Use<StartAuctionCommand>();
+            For<IAuctionService>()
+                .Use<AuctionService>();
         }
     }
 }

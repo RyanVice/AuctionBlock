@@ -3,9 +3,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using AuctionBlock.DataAccess.Queries;
 using AuctionBlock.Domain.Model;
-using AuctionBlock.Infrastructure.Factories;
+using AuctionBlock.Domain.Services;
 using AuctionBlock.Models.Request;
 using AuctionBlock.Models.Response;
 using AutoMapper;
@@ -14,14 +13,14 @@ namespace AuctionBlock.Controllers
 {
     public class AuctionBidsController : ApiController
     {
-        private readonly IFactory<IGetAuctionQuery> _getAuctionQueryFactory;
+        private readonly IAuctionService _auctionService;
         private readonly IMappingEngine _mappingEngine;
 
         public AuctionBidsController(
-            IFactory<IGetAuctionQuery> getAuctionQueryFactory,
+            IAuctionService auctionService,
             IMappingEngine mappingEngine)
         {
-            _getAuctionQueryFactory = getAuctionQueryFactory;
+            _auctionService = auctionService;
             _mappingEngine = mappingEngine;
         }
 
@@ -54,10 +53,7 @@ namespace AuctionBlock.Controllers
 
         private Auction GetAuction(Guid auctionId)
         {
-            var getAuctionQuery = _getAuctionQueryFactory.Create();
-            getAuctionQuery.Id = auctionId;
-
-            return getAuctionQuery.Execute();
+            return _auctionService.GetAuction(auctionId);
         }
     }
 }

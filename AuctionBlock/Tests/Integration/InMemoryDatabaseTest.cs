@@ -35,8 +35,9 @@ namespace AuctionBlock.Tests.Integration
                 {
                     x.For<ISession>().Add(Session);
                     x.AddRegistry<InfrastructureRegistry>();
-                    x.AddRegistry<DataAccessRegistry>();
                 });
+
+            SetUp();
         }
 
         protected virtual void SetUp()
